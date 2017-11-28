@@ -12,7 +12,7 @@
 /***************************Imports*************************************************/
 
 #include <stdint.h>
-#include "../CustomLib/custom_defs.h"
+#include <stdbool.h>
 
 /***************************Public Macro Definitions********************************/
 

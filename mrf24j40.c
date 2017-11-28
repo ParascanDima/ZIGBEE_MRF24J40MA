@@ -15,7 +15,6 @@
 
 /**************Private Macro Definitions*****************/
 
-#define SENSOR
 
 #define bite_32(x)  ((uint32_t*)&(x))
 
@@ -462,11 +461,9 @@ uint8_t RadioInit(void) // cold start radio init
     memset((void*) &RadioStatus, 0, sizeof (RadioStatus));
 
     RadioStatus.MyPANID = MY_PAN_ID;
-#ifdef SENSOR
-    RadioStatus.MyShortAddress = MY_SHORT_ADDRESS;
-#else
+
     RadioStatus.MyShortAddress = SERVER_SHORT_ADDRESS;
-#endif
+
     RadioStatus.ServerShortAddress = SERVER_SHORT_ADDRESS;
     RadioStatus.MyLongAddress = MY_LONG_ADDRESS;
     RadioStatus.Channel = 11; // start at channel 11
@@ -784,7 +781,6 @@ void RadioInitP2P(void) {
     //Tx.srcAddrMode = SHORT_ADDR_FIELD;
 }
 
-//Disable ZigBee Modules after Initialization
 void ZigBeeDisable(void)
 {
 

@@ -8,28 +8,28 @@
 
 /**************Imports***********************************/
 
-#include <MRF24J40/mrf24j40ma_pinout.h>
-#include "IO/io.h"
+#include "mrf24j40ma_pinout.h"
+//#include "IO/io.h"                        /* Include file with hardware pin descriptions */
 
 /**************Private Macro Definitions*****************/
 
-//PINOUT for MSP430FR5969
+/* Set the uC pins configuration */
 
-#define ZB_RST_PORT             GPIO_PORT_P3
-#define ZB_RST_PIN              GPIO_PIN4         //P3.4
-#define ZB_WAKE_PORT            GPIO_PORT_P3
-#define ZB_WAKE_PIN             GPIO_PIN5         //P3.5
-#define ZB_INT_PORT             GPIO_PORT_P3
-#define ZB_INT_PIN              GPIO_PIN6         //P3.6
+#define ZB_RST_PORT            /* uC port which pin is connected to RST pin of MRF24J40 */
+#define ZB_RST_PIN             /* uC pin connected to RST pin of MRF24J40 */
+#define ZB_WAKE_PORT           /* uC port which pin is connected to WAKE pin of MRF24J40 */
+#define ZB_WAKE_PIN            /* uC pin connected to WAKE pin of MRF24J40 */
+#define ZB_INT_PORT            /* uC port which pin is connected to INT pin of MRF24J40 */
+#define ZB_INT_PIN             /* uC pin connected to INT pin of MRF24J40 */
 
-#define ZB_SDI_PORT             GPIO_MOSI_PORT
-#define ZB_SDI_PIN              GPIO_MOSI_PIN     //P1.6    MOSI
-#define ZB_SCK_PORT             GPIO_SCLK_PORT
-#define ZB_SCK_PIN              GPIO_SCLK_PIN      //P2.2    SCLK
-#define ZB_CS_PORT              GPIO_PORT_P1
-#define ZB_CS_PIN               GPIO_PIN3         //P1.3
-#define ZB_SDO_PORT             GPIO_MISO_PORT
-#define ZB_SDO_PIN              GPIO_MISO_PIN     //P1.7    MISO
+#define ZB_SDI_PORT            /* uC port which pin is connected to SDI pin of MRF24J40 */
+#define ZB_SDI_PIN             /* uC pin connected to SDI pin of MRF24J40 */
+#define ZB_SCK_PORT            /* uC port which pin is connected to SCK pin of MRF24J40 */
+#define ZB_SCK_PIN             /* uC pin connected to SCK pin of MRF24J40 */
+#define ZB_CS_PORT             /* uC port which pin is connected to CS pin of MRF24J40 */
+#define ZB_CS_PIN              /* uC pin connected to CS pin of MRF24J40 */
+#define ZB_SDO_PORT            /* uC port which pin is connected to SDO pin of MRF24J40 */
+#define ZB_SDO_PIN             /* uC pin connected to SDO pin of MRF24J40 */
 
 /*
  *               ___________________________
@@ -86,68 +86,67 @@
 
 void MRF24J40_ChipSelectPullDown(void){
 
-    GPIO_setOutputLowOnPin(ZB_CS_PORT, ZB_CS_PIN);
+    /* Use the function to pull down the CS pin*/
 }
 
 void MRF24J40_ChipSelectPullUp(void){
 
-    GPIO_setOutputHighOnPin(ZB_CS_PORT, ZB_CS_PIN);
+    /* Use the function to pull up the CS pin*/
 }
 
 void MRF24J40_WakePinPullUp(void){
 
-    GPIO_setOutputHighOnPin(ZB_WAKE_PORT, ZB_WAKE_PIN);
+    /* Use the function to pull up the Wake pin*/
 }
 
 void MRF24J40_WakePinPullDown(void){
 
-    GPIO_setOutputLowOnPin(ZB_WAKE_PORT, ZB_WAKE_PIN);
+    /* Use the function to pull down the Wake pin*/
 }
 
 void MRF24J40_RstPinPullUp(void){
 
-    GPIO_setOutputHighOnPin(ZB_RST_PORT, ZB_RST_PIN);
+    /* Use the function to pull up the RST pin*/
 }
 
 void MRF24J40_RstPinPullDown(void){
 
-    GPIO_setOutputLowOnPin(ZB_RST_PORT, ZB_RST_PIN);
+    /* Use the function to pull down the RST pin*/
 }
 
 void MRF24J40_InterruptEnable(void){
 
-    GPIO_enableInterrupt(ZB_INT_PORT, ZB_INT_PIN);
+    /* Use the function to enable uC interrupt on pin connected to pin INT of MRF24J40 */
 }
 
 void MRF24J40_InterruptDisable(void){
 
-    GPIO_disableInterrupt(ZB_INT_PORT, ZB_INT_PIN);
+    /* Use the function to disable uC interrupt on pin connected to pin INT of MRF24J40 */
 }
 
 void MRF24J40_ClearInterruptFlag(void){
-    GPIO_clearInterrupt(ZB_INT_PORT, ZB_INT_PIN);
+    /* Use the function to clear uC interrupt flag on pin connected to pin INT of MRF24J40 */
 }
 
 void MRF24J40_PinOutInit(void){
 
-    GPIO_setAsInputPinWithPullUpResistor(ZB_INT_PORT, ZB_INT_PIN);
+/*
+ *  - Configure the PullUp resistor to pin connected to pin INT of MRF24J40 if uC requires separate configuration
+ *    (ex: REN register on MSP430)
+ *
+ *  - Configure the pins connected to CS, RST, WAKE as output HIGH ("1")
+ *
+ *  - Set the interrupt event on falling edge at INT pin
+ *
+ *  - Enable external interrupts
+ *  */
 
-    GPIO_setAsOutputPin(ZB_CS_PORT, ZB_CS_PIN);
-    MRF24J40_ChipSelectPullUp();
-    GPIO_setAsOutputPin(ZB_RST_PORT, ZB_RST_PIN);
-    MRF24J40_RstPinPullUp();
-    GPIO_setAsOutputPin(ZB_WAKE_PORT, ZB_WAKE_PIN);
-    MRF24J40_WakePinPullUp();
-
-    GPIO_selectInterruptEdge(ZB_INT_PORT, ZB_INT_PIN, GPIO_HIGH_TO_LOW_TRANSITION);
-    MRF24J40_ClearInterruptFlag();
-
-    MRF24J40_InterruptEnable();
 }
 
 void MRF24J40_Disable(void){
 
-    MRF24J40_ChipSelectPullUp();
-    MRF24J40_RstPinPullUp();
+    /*
+     * Set CS and RST pins to LOW ("0")
+     * */
 
 }

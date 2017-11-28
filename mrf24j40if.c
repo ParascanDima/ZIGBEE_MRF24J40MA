@@ -9,9 +9,8 @@
 /**************Imports***********************************/
 
 #include "mrf24j40if.h"
-#include "SPI/spi.h"
-#include "Timer/Timer.h"
-#include "CustomLib/custom_string.h"
+//#include "SPI\spi.h"          /* Include the spi header */
+//#include "Timer\Timer.h"      /* Include the timer header */
 
 
 /**************Private Macro Definitions*****************/
