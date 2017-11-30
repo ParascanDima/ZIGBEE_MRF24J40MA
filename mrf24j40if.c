@@ -9,8 +9,8 @@
 /**************Imports***********************************/
 
 #include "mrf24j40if.h"
-//#include "SPI\spi.h"          /* Include the spi header */
-//#include "Timer\Timer.h"      /* Include the timer header */
+//#include "SPI/spi.h"               /* Include the spi header */
+//#include "Timer/Timer.h"           /* Include the timer header */
 
 
 /**************Private Macro Definitions*****************/
@@ -38,27 +38,34 @@
 
 /**************Public Function Definitions***************/
 
+/* ---------------------------- SPI dependent code ---------------------------- */
 
 void MRF24J40IF_SpiTransmit(uint8_t v) // write 1 byte to SPI
 {
-    SPI_Transmit(v);
+    /* Interface for transmit data through SPI */
 }
 
 uint8_t MRF24J40IF_SpiReceive(void) // read 1 byte from SPI
 {
-    return SPI_Receive();
+    /* Interface for receive data through SPI */
 }
 
+
+
+
+/* ---------------------------- Timer dependent code ---------------------------- */
+
 void MRF24J40IF_Delay_ms(uint16_t miliseconds){
-    Delay_ms(miliseconds);
+    /* Delay function (simple delay based on onChip timer is not compatible with OS_Delay) */
 }
 
 
 uint32_t MRF24J40IF_ElapsedTimeSince(uint32_t time){
-    return ElapsedTimeSince(time);
+    /* "time" represent the saved Timer tick or SYS tick and returning the difference between actual value of
+     * SYS tick (timer tick) and "time" parameter */
 }
 
 uint32_t MRF24J40IF_GetSysMilliseconds(void){
-    return (uint32_t)GetMilliseconds();
+    /* This function returning milliseconds converted value of SYS tick */
 }
 
